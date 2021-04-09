@@ -76,7 +76,6 @@
                     </table>
                 </div>
                 <h4 style="margin: 40px 0; font-size: 20px">Chọn hình thức thanh toán</h4>
-
                 {{csrf_field()}}
                 <div class="payment-options">
                     <span>
@@ -87,11 +86,7 @@
                     </span>
                     <input style="border-radius: 5px;height: 35px; width: 100px;" type="submit" name="send_order_place" value="Đặt hàng" class="btn btn-primary btn-sm">
                 </div>
-
             </div>
-
-
-
         </div>
     </form>
 </section>

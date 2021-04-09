@@ -7,22 +7,32 @@
     @endforeach
 
     @foreach($category_by_id as $key => $product)
-    <a href="{{URL::to('chi-tiet-san-pham/'.$product->product_id)}}">
-        <div class="col-sm-4">
-            <div class="product-image-wrapper">
-                <div class="single-products">
-                    <div class="productinfo text-center">
-                        <img src="{{URL::to('public/uploads/product/'.$product->product_image)}}" height="300px" width="80px" alt="" />
-
-                        <p>{{$product->product_name}}</p>
-                        <a href="{{URL::to('/save-cart?productid_hidden='.$product->product_id.'&qty=1')}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>{{__('Thêm vào giỏ hàng')}}</a>
-                        <h2>{{number_format($product->product_price).' '.'VNĐ'}}</h2>
-                    </div>
+    <div class="col-sm-4">
+        <div class="product-image-wrapper">
+            <div class="single-products">
+                <div class="productinfo text-center">
+                    <form>
+                        @csrf
+                        <input type="hidden" value="{{$product->product_id}}" class="cart_product_id_{{$product->product_id}}">
+                        <input type="hidden" value="{{$product->product_name}}" class="cart_product_name_{{$product->product_id}}">
+                        <input type="hidden" value="{{$product->product_image}}" class="cart_product_image_{{$product->product_id}}">
+                        <input type="hidden" value="{{$product->product_price}}" class="cart_product_price_{{$product->product_id}}">
+                        <input type="hidden" value="1" class="cart_product_qty_{{$product->product_id}}">
+                        <a href="{{URL::to('chi-tiet-san-pham/'.$product->product_id)}}">
+                            <img src="{{URL::to('public/uploads/product/'.$product->product_image)}}" height="320" width="50" alt="" />
+                            <p>{{($product->product_name)}}</p>
+                            <h2>{{number_format($product->product_price).' '.'VNĐ'}}</h2>
+                        </a>
+                        <button type="button" class="btn btn-default add-to-cart" data-id_product="{{$product->product_id}}" name="add-to-cart">
+                            <i class="fa fa-shopping-cart"></i>{{__('Thêm vào giỏ hàng')}}</button>
+                    </form>
 
                 </div>
+
             </div>
+
         </div>
-    </a>
+    </div>
     @endforeach
 
 </div>

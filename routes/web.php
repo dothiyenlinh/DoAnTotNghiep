@@ -32,7 +32,7 @@ Route::get('/logout', 'AdminController@logout');
 Route::post('/admin-dashboard', 'AdminController@dashboard');
 
 //Send Mail
-// Route::get('/send-mail', 'HomeController@send_mail');
+// Route::get('/mailshopping', 'HomeController@mail_shopping');
 Route::get('/contact', 'HomeController@contact');
 Route::post('/contact', 'HomeController@postcontact');
 
@@ -52,22 +52,34 @@ Route::get('/delete-product/{product_id}', 'ProductController@delete_product');
 Route::post('/save-product', 'ProductController@save_product');
 Route::post('/update-product/{product_id}', 'ProductController@update_product');
 
+//Coupon
+Route::post('/check-coupon', 'CartController@check_coupon');
+Route::get('/unset-coupon', 'CouponController@unset_coupon');
+Route::get('/delete-coupon/{coupon_id}', 'CouponController@delete_coupon');
+Route::get('/insert-coupon', 'CouponController@insert_coupon');
+Route::get('/list-coupon', 'CouponController@list_coupon');
+Route::post('/insert-coupon-code', 'CouponController@insert_coupon_code');
+
 //Cart
 Route::post('/save-cart', 'CartController@save_cart');
 Route::get('/save-cart', 'CartController@save_cart');
 Route::get('/show-cart', 'CartController@show_cart');
 Route::get('/delete-to-cart/{rowId}', 'CartController@delete_to_cart');
+Route::get('/del-product/{session_id}', 'CartController@delete_product');
 Route::post('/update-cart-quantity', 'CartController@update_cart_quantity');
+Route::post('/update-cart', 'CartController@update_cart');
+Route::post('/add-cart-ajax','CartController@add_cart_ajax');
+Route::get('/gio-hang','CartController@gio_hang');
+Route::get('/del-all-product', 'CartController@delete_all_product');
+
 
 //Checkout
 Route::get('/login', 'CheckoutController@login');
 Route::get('/register', 'CheckoutController@register');
 Route::post('/add-customer', 'CheckoutController@add_customer');
 Route::get('/checkout', 'CheckoutController@checkout');
-// Route::post('/save-checkout-customer', 'CheckoutController@save_checkout_customer');
 Route::get('/logout-checkout', 'CheckoutController@logout_checkout');
 Route::post('/login-customer', 'CheckoutController@login_customer');
-// Route::get('/payment', 'CheckoutController@payment');
 Route::post('/order-place', 'CheckoutController@order_place');
 Route::get('/handcash', 'CheckoutController@handcash');
 

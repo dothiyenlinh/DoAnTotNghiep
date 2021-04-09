@@ -44,7 +44,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <header class="header fixed-top clearfix">
             <!--logo start-->
             <div class="brand">
-                <a href="index.html" class="logo">
+                <a href="dashboard" class="logo">
                     ADMIN
                 </a>
                 <div class="sidebar-toggle-box">
@@ -119,6 +119,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <ul class="sub">
                                 <li><a href="add-product">Thêm sản phẩm</a></li>
                                 <li><a href="all-product">Liệt kê sản phẩm</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-bell"></i>
+                                <span>Mã giảm giá</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="insert-coupon">Thêm mã giảm giá</a></li>
+                                <li><a href="list-coupon">Liệt kê mã giảm giá</a></li>
                             </ul>
                         </li>
 

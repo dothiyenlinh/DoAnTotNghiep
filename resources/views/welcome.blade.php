@@ -25,6 +25,7 @@
     <link href="{{ asset('public/frontend/css/animate.css') }}" rel="stylesheet">
     <link href="{{ asset('public/frontend/css/main.css') }}" rel="stylesheet">
     <link href="{{ asset('public/frontend/css/responsive.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/frontend/css/sweetalert.css') }}" rel="stylesheet">
     <link rel="shortcut icon" href="public/frontend/images/ico/favicon.ico">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
@@ -70,7 +71,7 @@
                                     <li><a href="san-pham">{{__('Sản Phẩm')}}</a></li>
                                     <li><a href="contact">{{__('Liên Hệ')}}</a></li>
 
-                                    <li><a href="{{URL::to('/show-cart')}}">{{__('Giỏ Hàng')}}</a></li>
+                                    <li><a href="{{URL::to('/gio-hang')}}">{{__('Giỏ Hàng')}}</a></li>
                                     <li class="dropdown"><a href="#">{{__('Ngôn Ngữ')}}<i class="fa fa-angle-down"></i></a>
                                         <ul role="menu" class="sub-menu">
                                             <li><a href="{{URL::to('language',['vi'])}}">{{__('Tiếng Việt')}}</a></li>
@@ -110,7 +111,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
-                <div id="slider-carousel" class="carousel slide" data-ride="carousel">
+                    <div id="slider-carousel" class="carousel slide" data-ride="carousel">
                         <ol class="carousel-indicators">
                             <li data-target="#slider-carousel" data-slide-to="0" class="active"></li>
                             <li data-target="#slider-carousel" data-slide-to="1"></li>
@@ -219,8 +220,49 @@
     <script src="public/frontend/js/price-range.js"></script>
     <script src="public/frontend/js/jquery.prettyPhoto.js"></script>
     <script src="public/frontend/js/main.js"></script>
+    <script src="public/frontend/js/sweetalert.min.js"></script>
     <div id="fb-root"></div>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v10.0" nonce="OV0nTRfv"></script>
+
+   <script type="text/javascript">
+        $(document).ready(function(){
+            $('.add-to-cart').click(function(){
+                var id = $(this).data('id_product');
+                var cart_product_id = $('.cart_product_id_' + id).val();
+                var cart_product_name = $('.cart_product_name_' + id).val();
+                var cart_product_image = $('.cart_product_image_' + id).val();
+                var cart_product_price = $('.cart_product_price_' + id).val();
+                var cart_product_qty = $('.cart_product_qty_' + id).val();
+                var _token = $('input[name="_token"]').val();
+                $.ajax({
+                    url: '{{url('/add-cart-ajax')}}',
+                    method: 'POST',
+                    data:{cart_product_id:cart_product_id,cart_product_name:cart_product_name,cart_product_image:cart_product_image,cart_product_price:cart_product_price,cart_product_qty:cart_product_qty,_token:_token},
+                    success:function(){
+
+                        swal({
+                                title: "Đã thêm sản phẩm",
+                                text: "Bạn có thể mua hàng hoặc đến giỏ hàng để thanh toán",
+                                showCancelButton: true,
+                                cancelButtonText: "Xem sản phẩm",
+                                confirmButtonClass: "btn-success",
+                                confirmButtonText: "Xem giỏ hàng",
+                                closeOnConfirm: false
+                            },
+                            function() {
+                                window.location.href = "{{url('/gio-hang')}}";
+                            });
+
+                    }
+
+                });
+            });
+        });
+    </script>
+
+
+
+
 </body>
 
 </html>

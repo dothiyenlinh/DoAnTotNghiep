@@ -847,6 +847,7 @@ h2.title {
     color: #fe980f;
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 17px;
+    margin-top: 10px;
 }
 .product-overlay h2 {
     color: #fff;
@@ -925,7 +926,7 @@ h2.title {
     /* color: #696763; */
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 15px;
-    /* margin-bottom: 25px; */
+    margin-bottom: 25px;
 }
 
 .add-to-cart:hover {

@@ -70,7 +70,7 @@
                                     <li><a href="san-pham">{{__('Sản Phẩm')}}</a></li>
                                     <li><a href="contact">{{__('Liên Hệ')}}</a></li>
 
-                                    <li><a href="{{URL::to('/show-cart')}}">{{__('Giỏ Hàng')}}</a></li>
+                                    <li><a href="{{URL::to('/gio-hang')}}">{{__('Giỏ Hàng')}}</a></li>
                                     <li class="dropdown"><a href="#">{{__('Ngôn Ngữ')}}<i class="fa fa-angle-down"></i></a>
                                         <ul role="menu" class="sub-menu">
                                             <li><a href="{{URL::to('language',['vi'])}}">{{__('Tiếng Việt')}}</a></li>
