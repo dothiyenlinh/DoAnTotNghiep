@@ -17,13 +17,13 @@ use Illuminate\Support\Facades\Route;
 //Frontend
 Route::get('/', 'HomeController@index');
 Route::get('/trang-chu', 'HomeController@index');
-Route::post('/tim-kiem', 'HomeController@search' );
+Route::post('/tim-kiem', 'HomeController@search');
 Route::get('/all-customer', 'HomeController@all_customer');
 Route::get('/san-pham', 'HomeController@san_pham');
 
 //Danh-muc-san-pham
-Route::get('/danh-muc-san-pham/{category_id}', 'CategoryProduct@show_category_home' );
-Route::get('/chi-tiet-san-pham/{product_id}', 'ProductController@details_product' );
+Route::get('/danh-muc-san-pham/{category_id}', 'CategoryProduct@show_category_home');
+Route::get('/chi-tiet-san-pham/{product_id}', 'ProductController@details_product');
 
 //Backend
 Route::get('/admin', 'AdminController@index');
@@ -68,8 +68,8 @@ Route::get('/delete-to-cart/{rowId}', 'CartController@delete_to_cart');
 Route::get('/del-product/{session_id}', 'CartController@delete_product');
 Route::post('/update-cart-quantity', 'CartController@update_cart_quantity');
 Route::post('/update-cart', 'CartController@update_cart');
-Route::post('/add-cart-ajax','CartController@add_cart_ajax');
-Route::get('/gio-hang','CartController@gio_hang');
+Route::post('/add-cart-ajax', 'CartController@add_cart_ajax');
+Route::get('/gio-hang', 'CartController@gio_hang');
 Route::get('/del-all-product', 'CartController@delete_all_product');
 
 
@@ -82,11 +82,22 @@ Route::get('/logout-checkout', 'CheckoutController@logout_checkout');
 Route::post('/login-customer', 'CheckoutController@login_customer');
 Route::post('/order-place', 'CheckoutController@order_place');
 Route::get('/handcash', 'CheckoutController@handcash');
+Route::post('/save-checkout-customer', 'CartController@save_checkout_customer');
+Route::post('/select-delivery-home', 'CheckoutController@select_delivery_home');
+Route::post('/calculate-fee', 'CheckoutController@calculate_fee');
+Route::post('/confirm-order', 'CheckoutController@confirm_order');
 
 //Order
-Route::get('/manage-order', 'CheckoutController@manage_order');
-Route::get('/view-order/{order}', 'CheckoutController@view_order');
-Route::get('/delete-order/{orderId}', 'CheckoutController@delete_order');
+Route::get('/manage-order', 'OrderController@manage_order');
+Route::get('/view-order/{order_code}', 'OrderController@view_order');
+// Route::get('/delete-order/{orderId}', 'OrderController@delete_order');
 
 //Language
-Route::get('/language/{language}','LanguageController@language');
+Route::get('/language/{language}', 'LanguageController@language');
+
+//Delivery
+Route::get('/delivery', 'DeliveryController@delivery');
+Route::post('/select-delivery', 'DeliveryController@select_delivery');
+Route::post('/insert-delivery', 'DeliveryController@insert_delivery');
+Route::post('/select-feeship', 'DeliveryController@select_feeship');
+Route::post('/update-delivery', 'DeliveryController@update_delivery');

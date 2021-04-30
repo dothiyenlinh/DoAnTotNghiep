@@ -101,7 +101,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
                         <li class="sub-menu">
                             <a href="javascript:;">
-                                <i class="fa fa-bus"></i>
+                                <i class="fa fa-book"></i>
                                 <span>Danh mục sản phẩm</span>
                             </a>
                             <ul class="sub">
@@ -124,7 +124,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
                         <li class="sub-menu">
                             <a href="javascript:;">
-                                <i class="fa fa-bell"></i>
+                                <i class="fa fa-rocket"></i>
                                 <span>Mã giảm giá</span>
                             </a>
                             <ul class="sub">
@@ -135,7 +135,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
                         <li class="sub-menu">
                             <a href="javascript:;">
-                                <i class="fa fa-book"></i>
+                                <i class="fa fa-taxi"></i>
+                                <span>Vận chuyển</span>
+                            </a>
+                            <ul class="sub">
+                                <!-- <li><a href="insert-coupon">Thêm mã giảm giá</a></li> -->
+                                <li><a href="delivery">Quản lí vận chuyển</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-bus"></i>
                                 <span>Đơn Hàng</span>
                             </a>
                             <ul class="sub">
@@ -187,6 +198,92 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     </script>
     <script src="public/backend/js/jquery.scrollTo.js"></script>
     <!-- morris JavaScript -->
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            fetch_delivery();
+
+            function fetch_delivery() {
+                var _token = $('input[name="_token"]').val();
+                $.ajax({
+                    url: '{{url('/select-feeship ')}}',
+                    method: 'POST',
+                    data: {
+                        _token: _token
+                    },
+                    success: function(data) {
+                        $('#load_delivery').html(data);
+                    }
+                });
+            }
+            $(document).on('blur', '.fee_feeship_edit', function() {
+
+                var feeship_id = $(this).data('feeship_id');
+                var fee_value = $(this).text();
+                var _token = $('input[name="_token"]').val();
+                $.ajax({
+                    url: '{{url('/update-delivery')}}',
+                    method: 'POST',
+                    data: {
+                        feeship_id: feeship_id,
+                        fee_value: fee_value,
+                        _token: _token
+                    },
+                    success: function(data) {
+                        fetch_delivery();
+                    }
+                });
+
+            });
+            $('.add_delivery').click(function() {
+
+                var city = $('.city').val();
+                var province = $('.province').val();
+                var wards = $('.wards').val();
+                var fee_ship = $('.fee_ship').val();
+                var _token = $('input[name="_token"]').val();
+                $.ajax({
+                    url: '{{url('/insert-delivery')}}',
+                    method: 'POST',
+                    data: {
+                        city: city,
+                        province: province,
+                        _token: _token,
+                        wards: wards,
+                        fee_ship: fee_ship
+                    },
+                    success: function(data) {
+                        fetch_delivery();
+                    }
+                });
+
+
+            });
+            $('.choose').on('change', function() {
+                var action = $(this).attr('id');
+                var ma_id = $(this).val();
+                var _token = $('input[name="_token"]').val();
+                var result = '';
+                if (action == 'city') {
+                    result = 'province';
+                } else {
+                    result = 'wards';
+                }
+                $.ajax({
+                    url: '{{url('/select-delivery')}}',
+                    method: 'POST',
+                    data: {
+                        action: action,
+                        ma_id: ma_id,
+                        _token: _token
+                    },
+                    success: function(data) {
+                        $('#' + result).html(data);
+                    }
+                });
+            });
+        })
+    </script>
     <script>
         $(document).ready(function() {
             //BOX BUTTON SHOW AND CLOSE
@@ -310,7 +407,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             switch (window.location.protocol) {
                 case 'http:':
                 case 'https:':
-                    // running on a server, should be good.
                     break;
                 case 'file:':
                     alert('Just a heads-up, events will not work when run locally.');

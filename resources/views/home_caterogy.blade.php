@@ -25,6 +25,7 @@
     <link href="{{ asset('public/frontend/css/animate.css') }}" rel="stylesheet">
     <link href="{{ asset('public/frontend/css/main.css') }}" rel="stylesheet">
     <link href="{{ asset('public/frontend/css/responsive.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/frontend/css/sweetalert.css') }}" rel="stylesheet">
     <link rel="shortcut icon" href="public/frontend/images/ico/favicon.ico">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
@@ -100,7 +101,7 @@
                         </ol>
 
                         <div class="carousel-inner">
-                        <div class="item active">
+                            <div class="item active">
                                 <div class="col-sm-6">
                                     <img style="height: 290px; width: 1024px;" src="public/frontend/images/tcsoi.jpg" class="girl img-responsive" alt="" />
                                 </div>
@@ -179,6 +180,120 @@
     <script src="public/frontend/js/price-range.js"></script>
     <script src="public/frontend/js/jquery.prettyPhoto.js"></script>
     <script src="public/frontend/js/main.js"></script>
+    <script src="public/frontend/js/sweetalert.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.choose').on('change', function() {
+                var action = $(this).attr('id');
+                var ma_id = $(this).val();
+                var _token = $('input[name="_token"]').val();
+                var result = '';
+                if (action == 'city') {
+                    result = 'province';
+                } else {
+                    result = 'wards';
+                }
+                $.ajax({
+                    url: '{{url('/select-delivery-home')}}',
+                    method: 'POST',
+                    data: {
+                        action: action,
+                        ma_id: ma_id,
+                        _token: _token
+                    },
+                    success: function(data) {
+                        $('#' + result).html(data);
+                    }
+                });
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.calculate_delivery').click(function() {
+                var matp = $('.city').val();
+                var maqh = $('.province').val();
+                var xaid = $('.wards').val();
+                var _token = $('input[name="_token"]').val();
+                if (matp == '' && maqh == '' && xaid == '') {
+                    alert('Làm ơn chọn để tính phí vận chuyển');
+                } else {
+                    $.ajax({
+                        url: '{{url('/calculate-fee')}}',
+                        method: 'POST',
+                        data: {
+                            matp: matp,
+                            maqh: maqh,
+                            xaid: xaid,
+                            _token: _token
+                        },
+                        success: function() {
+                            location.reload();
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.send_order').click(function() {
+                swal({
+                        title: "Xác nhận đơn hàng",
+                        text: "Đơn hàng sẽ không được hoàn trả khi đặt,bạn có muốn đặt không?",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonClass: "btn-danger",
+                        confirmButtonText: "Mua hàng",
+
+                        cancelButtonText: "Đóng",
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    },
+                    function(isConfirm) {
+                        if (isConfirm) {
+                            var shipping_email = $('.shipping_email').val();
+                            var shipping_name = $('.shipping_name').val();
+                            var shipping_address = $('.shipping_address').val();
+                            var shipping_phone = $('.shipping_phone').val();
+                            var shipping_notes = $('.shipping_notes').val();
+                            var shipping_method = $('.payment_select').val();
+                            var order_fee = $('.order_fee').val();
+                            var order_coupon = $('.order_coupon').val();
+                            var _token = $('input[name="_token"]').val();
+
+                            $.ajax({
+                                url: '{{url('/confirm-order')}}',
+                                method: 'POST',
+                                data: {
+                                    shipping_email: shipping_email,
+                                    shipping_name: shipping_name,
+                                    shipping_address: shipping_address,
+                                    shipping_phone: shipping_phone,
+                                    shipping_notes: shipping_notes,
+                                    _token: _token,
+                                    order_fee: order_fee,
+                                    order_coupon: order_coupon,
+                                    shipping_method: shipping_method
+                                },
+                                success: function() {
+                                    swal("Đơn hàng", "Đơn hàng của bạn đã được gửi thành công", "success");
+                                }
+                            });
+                            window.setTimeout(function() {
+                                location.reload();
+                            }, 3000);
+                        } else {
+                            swal("Đóng", "Đơn hàng chưa được gửi, làm ơn hoàn tất đơn hàng", "error");
+                        }
+                    });
+            });
+        });
+    </script>
+
     <div id="fb-root"></div>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v10.0" nonce="OV0nTRfv"></script>
 </body>

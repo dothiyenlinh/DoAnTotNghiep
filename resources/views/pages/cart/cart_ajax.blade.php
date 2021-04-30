@@ -56,12 +56,12 @@
                     </tr>
                     @endforeach
                     <tr>
-                        <td>
+                        <!-- <td>
                             <input type="submit" value="Cập nhật giỏ hàng" name="update_qty" class="btn btn-default btn-sm">
                         </td>
                         <td>
                             <a class="btn btn-default check-out" href="{{url('/del-all-product')}}">Xóa tất cả</a>
-                        </td>
+                        </td> -->
 
                         <td>
                             <li>Tổng tiền :<span>{{number_format($total,0,',','.')}}đ</span></li>
@@ -103,6 +103,21 @@
                             <!-- <li>Thuế <span></span></li>
                             <li>Phí vận chuyển <span>Free</span></li>
                             <li>Thành tiền <span></span></li> -->
+                        </td>
+                        <td>
+                            <input type="submit" value="Cập nhật" name="update_qty" class="btn btn-default check-out">
+                        </td>
+                        <td>
+                            <a class="btn btn-default check-out" href="{{url('/del-all-product')}}">Xóa tất cả</a>
+                        </td>
+                        <td>
+                        <a class="btn btn-default check-out" href="{{url('/checkout')}}">Thanh toán</a>
+                            <!-- @if(Session::get('customer'))
+
+                            @else
+                            <a class="btn btn-default check-out" href="{{url('/login')}}">Thanh toán</a>
+                            @endif -->
+
                         </td>
                     </tr>
                     @else

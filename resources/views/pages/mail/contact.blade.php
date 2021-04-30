@@ -34,6 +34,10 @@
                     </div>
                 </form>
             </div>
-            <div class="col-sm-5 padding-right">
-            </div>
-            @endsection
+        </div>
+        <div class="col-sm-5">
+            <img style="height: 400px; width: 290px; margin-top: 5%; margin-left: 20%;" src="public/frontend/images/lienhe.jpg" alt="" />
+        </div>
+    </div>
+
+    @endsection

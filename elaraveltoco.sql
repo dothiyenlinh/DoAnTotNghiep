@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th4 09, 2021 lúc 08:16 PM
+-- Thời gian đã tạo: Th4 30, 2021 lúc 06:40 PM
 -- Phiên bản máy phục vụ: 10.4.14-MariaDB
 -- Phiên bản PHP: 7.2.33
 
@@ -186,10 +186,18 @@ INSERT INTO `tbl_customers` (`customer_id`, `customer_name`, `customer_email`, `
 CREATE TABLE `tbl_feeship` (
   `fee_id` int(11) NOT NULL,
   `fee_matp` int(10) NOT NULL,
-  `fee_maquanhuyen` int(10) NOT NULL,
+  `fee_maqh` int(10) NOT NULL,
   `fee_xaid` int(10) NOT NULL,
   `fee_feeship` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Đang đổ dữ liệu cho bảng `tbl_feeship`
+--
+
+INSERT INTO `tbl_feeship` (`fee_id`, `fee_matp`, `fee_maqh`, `fee_xaid`, `fee_feeship`) VALUES
+(1, 74, 718, 25750, '10000'),
+(3, 74, 718, 25744, '30000');
 
 -- --------------------------------------------------------
 
@@ -201,9 +209,8 @@ CREATE TABLE `tbl_order` (
   `order_id` int(10) UNSIGNED NOT NULL,
   `customer_id` int(11) NOT NULL,
   `shipping_id` int(11) NOT NULL,
-  `payment_id` int(11) NOT NULL,
-  `order_total` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `order_status` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `order_status` int(20) NOT NULL,
+  `order_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -212,12 +219,17 @@ CREATE TABLE `tbl_order` (
 -- Đang đổ dữ liệu cho bảng `tbl_order`
 --
 
-INSERT INTO `tbl_order` (`order_id`, `customer_id`, `shipping_id`, `payment_id`, `order_total`, `order_status`, `created_at`, `updated_at`) VALUES
-(48, 2, 41, 50, '270,000.00', 'Đang chờ xử lý', NULL, NULL),
-(49, 6, 42, 51, '90,000.00', 'Đang chờ xử lý', NULL, NULL),
-(50, 2, 43, 52, '80,000.00', 'Đang chờ xử lý', NULL, NULL),
-(51, 2, 44, 53, '280,000.00', 'Đang chờ xử lý', NULL, NULL),
-(52, 2, 45, 57, '90,000.00', 'Đang chờ xử lý', NULL, NULL);
+INSERT INTO `tbl_order` (`order_id`, `customer_id`, `shipping_id`, `order_status`, `order_code`, `created_at`, `updated_at`) VALUES
+(53, 2, 46, 1, 'bdc5d', '2021-04-29 06:29:46', NULL),
+(54, 2, 47, 1, 'ab6b6', '2021-04-29 06:31:24', NULL),
+(55, 2, 48, 1, '6a6e9', '2021-04-29 06:31:25', NULL),
+(56, 2, 49, 1, '343b0', '2021-04-29 06:31:26', NULL),
+(57, 2, 50, 1, 'f7a13', '2021-04-29 06:31:26', NULL),
+(58, 2, 51, 1, '21c81', '2021-04-29 06:31:27', NULL),
+(59, 2, 52, 1, '1eb17', '2021-04-29 06:32:01', NULL),
+(60, 2, 53, 1, 'e4be9', '2021-04-29 06:33:34', NULL),
+(61, 2, 54, 1, '1371b', '2021-04-29 06:36:10', NULL),
+(62, 2, 55, 1, 'a721b', '2021-04-29 06:42:20', NULL);
 
 -- --------------------------------------------------------
 
@@ -227,11 +239,13 @@ INSERT INTO `tbl_order` (`order_id`, `customer_id`, `shipping_id`, `payment_id`,
 
 CREATE TABLE `tbl_order_details` (
   `order_details_id` int(10) UNSIGNED NOT NULL,
-  `order_id` int(11) NOT NULL,
+  `order_code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `product_id` int(11) NOT NULL,
   `product_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `product_price` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `product_sales_quantity` int(11) NOT NULL,
+  `product_coupon` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_feeship` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -240,73 +254,12 @@ CREATE TABLE `tbl_order_details` (
 -- Đang đổ dữ liệu cho bảng `tbl_order_details`
 --
 
-INSERT INTO `tbl_order_details` (`order_details_id`, `order_id`, `product_id`, `product_name`, `product_price`, `product_sales_quantity`, `created_at`, `updated_at`) VALUES
-(49, 47, 15, 'Caramel đá xay', '40000', 8, NULL, NULL),
-(51, 48, 14, 'Dâu tằm', '90000', 3, NULL, NULL),
-(52, 49, 14, 'Dâu tằm', '90000', 1, NULL, NULL),
-(53, 50, 15, 'Caramel đá xay', '40000', 2, NULL, NULL),
-(54, 51, 15, 'Caramel đá xay', '40000', 7, NULL, NULL),
-(55, 52, 14, 'Dâu tằm', '90000', 1, NULL, NULL);
-
--- --------------------------------------------------------
-
---
--- Cấu trúc bảng cho bảng `tbl_payment`
---
-
-CREATE TABLE `tbl_payment` (
-  `payment_id` int(10) UNSIGNED NOT NULL,
-  `payment_method` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payment_status` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Đang đổ dữ liệu cho bảng `tbl_payment`
---
-
-INSERT INTO `tbl_payment` (`payment_id`, `payment_method`, `payment_status`, `created_at`, `updated_at`) VALUES
-(18, '1', 'Đang chờ xử lý', NULL, NULL),
-(19, '2', 'Đang chờ xử lý', NULL, NULL),
-(20, '1', 'Đang chờ xử lý', NULL, NULL),
-(21, '1', 'Đang chờ xử lý', NULL, NULL),
-(22, '2', 'Đang chờ xử lý', NULL, NULL),
-(23, '2', 'Đang chờ xử lý', NULL, NULL),
-(24, '2', 'Đang chờ xử lý', NULL, NULL),
-(25, '2', 'Đang chờ xử lý', NULL, NULL),
-(26, '2', 'Đang chờ xử lý', NULL, NULL),
-(27, '2', 'Đang chờ xử lý', NULL, NULL),
-(28, '1', 'Đang chờ xử lý', NULL, NULL),
-(29, '2', 'Đang chờ xử lý', NULL, NULL),
-(30, '2', 'Đang chờ xử lý', NULL, NULL),
-(31, '2', 'Đang chờ xử lý', NULL, NULL),
-(32, '2', 'Đang chờ xử lý', NULL, NULL),
-(33, '2', 'Đang chờ xử lý', NULL, NULL),
-(34, '2', 'Đang chờ xử lý', NULL, NULL),
-(35, '2', 'Đang chờ xử lý', NULL, NULL),
-(36, '2', 'Đang chờ xử lý', NULL, NULL),
-(37, '2', 'Đang chờ xử lý', NULL, NULL),
-(38, '2', 'Đang chờ xử lý', NULL, NULL),
-(39, '2', 'Đang chờ xử lý', NULL, NULL),
-(40, '2', 'Đang chờ xử lý', NULL, NULL),
-(41, '2', 'Đang chờ xử lý', NULL, NULL),
-(42, '2', 'Đang chờ xử lý', NULL, NULL),
-(43, '2', 'Đang chờ xử lý', NULL, NULL),
-(44, '2', 'Đang chờ xử lý', NULL, NULL),
-(45, '2', 'Đang chờ xử lý', NULL, NULL),
-(46, '2', 'Đang chờ xử lý', NULL, NULL),
-(47, '2', 'Đang chờ xử lý', NULL, NULL),
-(48, '2', 'Đang chờ xử lý', NULL, NULL),
-(49, '2', 'Đang chờ xử lý', NULL, NULL),
-(50, '2', 'Đang chờ xử lý', NULL, NULL),
-(51, '2', 'Đang chờ xử lý', NULL, NULL),
-(52, '2', 'Đang chờ xử lý', NULL, NULL),
-(53, '2', 'Đang chờ xử lý', NULL, NULL),
-(54, '1', 'Đang chờ xử lý', NULL, NULL),
-(55, '1', 'Đang chờ xử lý', NULL, NULL),
-(56, '2', 'Đang chờ xử lý', NULL, NULL),
-(57, '2', 'Đang chờ xử lý', NULL, NULL);
+INSERT INTO `tbl_order_details` (`order_details_id`, `order_code`, `product_id`, `product_name`, `product_price`, `product_sales_quantity`, `product_coupon`, `product_feeship`, `created_at`, `updated_at`) VALUES
+(56, 'bdc5d', 33, 'Trà đen', '60000', 1, 'thichthigiam', '25000', NULL, NULL),
+(57, 'bdc5d', 15, 'Caramel đá xay', '40000', 1, 'thichthigiam', '25000', NULL, NULL),
+(58, 'bdc5d', 14, 'Dâu tằm', '90000', 1, 'thichthigiam', '25000', NULL, NULL),
+(59, 'a721b', 15, 'Caramel đá xay', '40000', 1, 'no', '30000', NULL, NULL),
+(60, 'a721b', 33, 'Trà đen', '60000', 1, 'no', '30000', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -370,7 +323,9 @@ CREATE TABLE `tbl_shipping` (
   `shipping_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `shipping_address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `shipping_phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `shipping_email` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `shipping_notes` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `shipping_method` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -379,13 +334,8 @@ CREATE TABLE `tbl_shipping` (
 -- Đang đổ dữ liệu cho bảng `tbl_shipping`
 --
 
-INSERT INTO `tbl_shipping` (`shipping_id`, `shipping_name`, `shipping_address`, `shipping_phone`, `shipping_notes`, `created_at`, `updated_at`) VALUES
-(40, 'huongdb', 'Bình Dương', '0346333333', 'alo alo', NULL, NULL),
-(41, 'Đỗ Linh', 'Bình Dương', '0346333333', 'lllll', NULL, NULL),
-(42, 'bjasdhgasvmdvgasgjm', 'Bình Dương', '0346333333', 'llll', NULL, NULL),
-(43, 'Lượt Chó điên', 'Bình Dương', '000000000000', 'không', NULL, NULL),
-(44, 'xxxxx', 'xxxxxxx', '00000000', 'lllllll', NULL, NULL),
-(45, 'Ngân khung', 'llllllllllll', '11111111111', 'llllllllllll', NULL, NULL);
+INSERT INTO `tbl_shipping` (`shipping_id`, `shipping_name`, `shipping_address`, `shipping_phone`, `shipping_email`, `shipping_notes`, `shipping_method`, `created_at`, `updated_at`) VALUES
+(55, 'lll', 'Bình Dương', '0346333333', 'linh@gmail.com', 'ddddd', 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -515,12 +465,6 @@ ALTER TABLE `tbl_order_details`
   ADD PRIMARY KEY (`order_details_id`);
 
 --
--- Chỉ mục cho bảng `tbl_payment`
---
-ALTER TABLE `tbl_payment`
-  ADD PRIMARY KEY (`payment_id`);
-
---
 -- Chỉ mục cho bảng `tbl_product`
 --
 ALTER TABLE `tbl_product`
@@ -600,25 +544,19 @@ ALTER TABLE `tbl_customers`
 -- AUTO_INCREMENT cho bảng `tbl_feeship`
 --
 ALTER TABLE `tbl_feeship`
-  MODIFY `fee_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `fee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT cho bảng `tbl_order`
 --
 ALTER TABLE `tbl_order`
-  MODIFY `order_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `order_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT cho bảng `tbl_order_details`
 --
 ALTER TABLE `tbl_order_details`
-  MODIFY `order_details_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
-
---
--- AUTO_INCREMENT cho bảng `tbl_payment`
---
-ALTER TABLE `tbl_payment`
-  MODIFY `payment_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `order_details_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT cho bảng `tbl_product`
@@ -630,7 +568,7 @@ ALTER TABLE `tbl_product`
 -- AUTO_INCREMENT cho bảng `tbl_shipping`
 --
 ALTER TABLE `tbl_shipping`
-  MODIFY `shipping_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `shipping_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT cho bảng `users`
