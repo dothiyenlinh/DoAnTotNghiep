@@ -2,12 +2,40 @@
 @section('content1')
 
 <section id="cart_items">
-    <div class="row">
+    <div class="row" style="margin-bottom: 5%;">
         <div class="col-sm-5">
             <div>
                 <div class="col-sm-12 clearfix">
+                    <div>
+                        <h3 style="margin-bottom: 4%; margin-top: -0%; color: #696763; font-size: 20px; text-align: center;">Chọn nơi nhận hàng</h3>
+                        <form>
+                            @csrf
+                            <div class="form-group">
+                                <!-- <label for="exampleInputPassword1">Tỉnh</label> -->
+                                <select name="city" id="city" class="form-control input-sm m-bot15 choose city">
+                                    <option value="">--Tỉnh--</option>
+                                    @foreach($city as $key => $ci)
+                                    <option value="{{$ci->matp}}">{{$ci->name_city}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <!-- <label for="exampleInputPassword1">Thành phố</label> -->
+                                <select name="province" id="province" class="form-control input-sm m-bot15 province choose">
+                                    <option value="">--Thành phố--</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <!-- <label for="exampleInputPassword1">Phường</label> -->
+                                <select name="wards" id="wards" class="form-control input-sm m-bot15 wards">
+                                    <option value="">--Phường--</option>
+                                </select>
+                            </div>
+                            <input type="button" class="form-control calculate_delivery" name="calculate_order" value="Tính phí vận chuyển">
+                        </form>
+                    </div>
                     <div class="bill-to">
-                        <h3 style="margin-bottom: 4%; margin-top: -0%; color: #696763; font-size: 20px; text-align: center;">Điền thông tin người nhận</h3>
+                        <h3 style="margin-bottom: 4%; margin-top: 20%; color: #696763; font-size: 20px; text-align: center;">Điền thông tin người nhận</h3>
                         <form method="POST">
                             @csrf
                             <div class="form-group">
@@ -47,34 +75,6 @@
                             </div>
                         </form>
                     </div>
-                    <div>
-                        <h3 style="margin-bottom: 4%; margin-top: 20%; color: #696763; font-size: 20px; text-align: center;">Chọn nơi nhận hàng</h3>
-                        <form>
-                            @csrf
-                            <div class="form-group">
-                                <!-- <label for="exampleInputPassword1">Tỉnh</label> -->
-                                <select name="city" id="city" class="form-control input-sm m-bot15 choose city">
-                                    <option value="">--Tỉnh--</option>
-                                    @foreach($city as $key => $ci)
-                                    <option value="{{$ci->matp}}">{{$ci->name_city}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <!-- <label for="exampleInputPassword1">Thành phố</label> -->
-                                <select name="province" id="province" class="form-control input-sm m-bot15 province choose">
-                                    <option value="">--Thành phố--</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <!-- <label for="exampleInputPassword1">Phường</label> -->
-                                <select name="wards" id="wards" class="form-control input-sm m-bot15 wards">
-                                    <option value="">--Phường--</option>
-                                </select>
-                            </div>
-                            <input type="button" class="form-control calculate_delivery" name="calculate_order" value="Tính phí vận chuyển">
-                        </form>
-                    </div>
                 </div>
             </div>
         </div>
@@ -90,11 +90,11 @@
                     <table class="table table-condensed">
                         <thead>
                             <tr class="cart_menu">
-                                <td class="image">Hình ảnh</td>
-                                <td class="description">Tên</td>
-                                <td class="price">Giá</td>
-                                <td class="quantity">Số lượng</td>
-                                <td class="total">Thành tiền</td>
+                                <td class="image">{{__('Hình ảnh')}}</td>
+                                <td class="description">{{__('Tên sản phẩm')}}</td>
+                                <td class="price">{{__('Giá sản phẩm')}}</td>
+                                <td class="quantity">{{__('Số lượng')}}</td>
+                                <td class="total">{{__('Thành tiền')}}</td>
                                 <td></td>
                             </tr>
                         </thead>
@@ -128,19 +128,9 @@
                                         {{number_format($subtotal,0,',','.')}}đ
                                     </p>
                                 </td>
-                                <!-- <td class="cart_delete">
-                            <a class="cart_quantity_delete" href="{{url('/del-product/'.$cart['session_id'])}}"><i class="fa fa-times"></i></a>
-                        </td> -->
                             </tr>
                             @endforeach
                             <tr>
-                                <!-- <td>
-                                    <input type="submit" value="Cập nhật giỏ hàng" name="update_qty" class="btn btn-default btn-sm">
-                                </td>
-                                <td>
-                                    <a class="btn btn-default check-out" href="{{url('/del-all-product')}}">Xóa tất cả</a>
-                                </td> -->
-
                                 <td>
                                     <li>Tổng tiền :<span>{{number_format($total,0,',','.')}}đ</span></li>
                                     @if(Session::get('coupon'))
@@ -215,35 +205,9 @@
                         </tbody>
                     </table>
                 </form>
-                <!-- @if(Session::get('cart'))
-                <tr>
-                    <td>
-                        <form method="POST" action="{{url('/check-coupon')}}">
-                            @csrf
-                            <input class="form-control" type="text" name="coupon" placeholder="Nhập mã"></br>
-                            <input type="submit" class="btn btn-default check_coupon" name="check_coupon" value="Tính giảm giá">
-                            @if(Session::get('coupon'))
-                            <a class="btn btn-default check-out" href="{{url('/unset-coupon')}}">Xóa mã giảm giá</a>
-                            @endif
-                        </form>
-                    </td>
-                </tr>
-                @endif -->
             </div>
-            <!-- <h4 style="margin: 40px 0; font-size: 20px">Chọn hình thức thanh toán</h4>
-            {{csrf_field()}}
-            <div class="payment-options">
-                <span>
-                    <label><input name="payment_option" value="1" type="checkbox"> Thanh toán qua thẻ</label>
-                </span>
-                <span>
-                    <label><input name="payment_option" value="2" type="checkbox"> Thanh toán tiền mặt</label>
-                </span>
-                <input style="border-radius: 5px;height: 35px; width: 100px;" type="submit" name="send_order_place" value="Đặt hàng" class="btn btn-primary btn-sm">
-            </div> -->
         </div>
     </div>
 </section>
-<!--/#cart_items-->
 
 @endsection

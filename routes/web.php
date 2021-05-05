@@ -32,7 +32,6 @@ Route::get('/logout', 'AdminController@logout');
 Route::post('/admin-dashboard', 'AdminController@dashboard');
 
 //Send Mail
-// Route::get('/mailshopping', 'HomeController@mail_shopping');
 Route::get('/contact', 'HomeController@contact');
 Route::post('/contact', 'HomeController@postcontact');
 
@@ -50,6 +49,7 @@ Route::get('/all-product', 'ProductController@all_product');
 Route::get('/edit-product/{product_id}', 'ProductController@edit_product');
 Route::get('/delete-product/{product_id}', 'ProductController@delete_product');
 Route::post('/save-product', 'ProductController@save_product');
+Route::post('/insert-rating', 'ProductController@insert_rating');
 Route::post('/update-product/{product_id}', 'ProductController@update_product');
 
 //Coupon
@@ -86,11 +86,15 @@ Route::post('/save-checkout-customer', 'CartController@save_checkout_customer');
 Route::post('/select-delivery-home', 'CheckoutController@select_delivery_home');
 Route::post('/calculate-fee', 'CheckoutController@calculate_fee');
 Route::post('/confirm-order', 'CheckoutController@confirm_order');
+Route::get('/quen-mat-khau', 'CheckoutController@quen_mat_khau');
+Route::post('/recover-pass', 'CheckoutController@recover_pass');
+Route::post('/reset-new-pass', 'CheckoutController@reset_new_pass');
+Route::get('/update-new-pass', 'CheckoutController@update_new_pass');
 
 //Order
 Route::get('/manage-order', 'OrderController@manage_order');
 Route::get('/view-order/{order_code}', 'OrderController@view_order');
-// Route::get('/delete-order/{orderId}', 'OrderController@delete_order');
+Route::get('/delete-order/{order_code}','OrderController@delete_order');
 
 //Language
 Route::get('/language/{language}', 'LanguageController@language');
@@ -101,3 +105,18 @@ Route::post('/select-delivery', 'DeliveryController@select_delivery');
 Route::post('/insert-delivery', 'DeliveryController@insert_delivery');
 Route::post('/select-feeship', 'DeliveryController@select_feeship');
 Route::post('/update-delivery', 'DeliveryController@update_delivery');
+
+//Banner
+Route::get('/manage-slider', 'SliderController@manage_slider');
+Route::get('/add-slider', 'SliderController@add_slider');
+Route::get('/delete-slide/{slide_id}','SliderController@delete_slide');
+Route::post('/insert-slider','SliderController@insert_slider');
+Route::get('/unactive-slide/{slide_id}','SliderController@unactive_slide');
+Route::get('/active-slide/{slide_id}','SliderController@active_slide');
+
+
+//Payment online
+Route::post('/payment-onlines','PaymentController@payment_onlines');
+Route::get('/thanh-toan','PaymentController@thanh_toan');
+Route::post('/thanhtoan-onlines','PaymentController@thanhtoan_onlines');
+Route::get('/vnpay-return',['as'=>'vnpayreturn','uses'=>'PaymentController@vnpay_return']);

@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\Http\Requests;
-
+use Carbon\Carbon;
 use DB;
 use Session;
 use Cart;
@@ -12,13 +13,14 @@ use Illuminate\Support\Facades\Mail;
 
 use Illuminate\Support\Facades\Redirect;
 use App\City;
+use App\Coupon;
 use App\Province;
 use App\Wards;
 use App\Feeship;
 use App\Shipping;
 use App\Order;
 use App\OrderDetails;
-
+use App\Customer;
 session_start();
 
 class CheckoutController extends Controller
@@ -196,9 +198,7 @@ class CheckoutController extends Controller
             ->select('tbl_order.*', 'tbl_customers.*', 'tbl_shipping.*', 'tbl_order_details.*')
             ->first();
         $manager_order_by_id = view('admin.view_order')->with('order_by_id', $order_by_id);
-        // echo '<pre>';
-        // print_r($order_by_id);
-        // echo '</pre>';
+        
         return view('admin_layout')->with('admin.view_order', $manager_order_by_id);
     }
     public function delete_order($order_id)
@@ -231,6 +231,8 @@ class CheckoutController extends Controller
     public function calculate_fee(Request $request)
     {
         $data = $request->all();
+        Session::get('shipping_session');
+        Session::put('shipping_session',$data);
         if ($data['matp']) {
             $feeship = Feeship::where('fee_matp', $data['matp'])->where('fee_maqh', $data['maqh'])->where('fee_xaid', $data['xaid'])->get();
             if ($feeship) {
@@ -247,8 +249,15 @@ class CheckoutController extends Controller
             }
         }
     }
-    public function confirm_order(Request $request){
+    public function confirm_order(Request $request)
+    {
         $data = $request->all();
+        if($data['order_coupon']!='no'){
+            $coupon = Coupon::where('coupon_code',$data['order_coupon'])->first();
+            $coupon->coupon_time = $coupon->coupon_time - 1;
+
+            $coupon->save();
+        }
 
         $shipping = new Shipping();
         $shipping->shipping_name = $data['shipping_name'];
@@ -260,7 +269,7 @@ class CheckoutController extends Controller
         $shipping->save();
         $shipping_id = $shipping->shipping_id;
 
-        $checkout_code = substr(md5(microtime()),rand(0,26),5);
+        $checkout_code = substr(md5(microtime()), rand(0, 26), 5);
 
 
         $order = new Order;
@@ -273,21 +282,87 @@ class CheckoutController extends Controller
         $order->created_at = now();
         $order->save();
 
-        if(Session::get('cart')==true){
-           foreach(Session::get('cart') as $key => $cart){
-               $order_details = new OrderDetails;
-               $order_details->order_code = $checkout_code;
-               $order_details->product_id = $cart['product_id'];
-               $order_details->product_name = $cart['product_name'];
-               $order_details->product_price = $cart['product_price'];
-               $order_details->product_sales_quantity = $cart['product_qty'];
-               $order_details->product_coupon =  $data['order_coupon'];
-               $order_details->product_feeship = $data['order_fee'];
-               $order_details->save();
-           }
+        if (Session::get('cart') == true) {
+            foreach (Session::get('cart') as $key => $cart) {
+                $order_details = new OrderDetails;
+                $order_details->order_code = $checkout_code;
+                $order_details->product_id = $cart['product_id'];
+                $order_details->product_name = $cart['product_name'];
+                $order_details->product_price = $cart['product_price'];
+                $order_details->product_sales_quantity = $cart['product_qty'];
+                $order_details->product_coupon =  $data['order_coupon'];
+                $order_details->product_feeship = $data['order_fee'];
+                $order_details->save();
+            }
         }
         Session::forget('coupon');
         Session::forget('fee');
         Session::forget('cart');
-   }
+
+    }
+
+    public function quen_mat_khau(Request $request)
+    {
+        return view('pages.checkout.forget_pass');
+    }
+
+    public function update_new_pass(Request $request)
+    {
+        return view('pages.checkout.new_pass');
+    }
+
+    public function recover_pass(Request $request)
+    {
+        $data = $request->all();
+        $now = Carbon::now('Asia/Ho_Chi_Minh')->format('d-m-Y');
+        $title_mail = "Lấy lại mật khẩu".' '.$now;
+        $customer = Customer::where('customer_email', '=', $data['email_account'])->get();
+        foreach ($customer as $key => $value) {
+            $customer_id = $value->customer_id;
+        }
+
+        if ($customer) {
+            $count_customer = $customer->count();
+            if ($count_customer == 0) {
+                return redirect()->back()->with('error', 'Email chưa được đăng ký để khôi phục mật khẩu');
+            } else {
+                $token_random = Str::random();
+                $customer = Customer::find($customer_id);
+                $customer->customer_token = $token_random;
+                $customer->save();
+                //send mail
+
+                $to_email = $data['email_account'];//send to this email
+                $link_reset_pass = url('/update-new-pass?email='.$to_email.'&token='.$token_random);
+
+                $data = array("name"=>$title_mail,"body"=>$link_reset_pass,'email'=>$data['email_account']); //body of mail.blade.php
+
+                Mail::send('pages.checkout.forget_pass_notify', ['data'=>$data] , function($message) use ($title_mail,$data){
+                    $message->to($data['email'])->subject($title_mail);//send this mail with subject
+                    $message->from($data['email'],$title_mail);//send from this mail
+                });
+                //--send mail
+                return redirect()->back()->with('message', 'Gửi mail thành công,vui lòng vào email để reset password');
+            }
+        }
+    }
+
+    public function reset_new_pass(Request $request){
+    	$data = $request->all();
+        $token_random = Str::random();
+        $customer = Customer::where('customer_email','=',$data['email'])->where('customer_token','=',$data['token'])->get();
+        $count = $customer->count();
+        if($count>0){
+                foreach($customer as $key => $cus){
+                    $customer_id = $cus->customer_id;
+                }
+                $reset = Customer::find($customer_id);
+                $reset->customer_password = md5($data['password_account']);
+                $reset->customer_token = $token_random;
+                $reset->save();
+                return redirect('login')->with('message', 'Mật khẩu đã cập nhật mới,vui lòng đăng nhập');
+        }else{
+            return redirect('quen-mat-khau')->with('error', 'Vui lòng nhập lại email vì link đã quá hạn');
+        }
+    }
 }

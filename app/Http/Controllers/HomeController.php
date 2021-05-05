@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests;
 use App\Models\Product;
 use App\Models\Category;
+use App\Slider;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 
@@ -13,6 +14,7 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
+        $slider = Slider::orderBy('slider_id','DESC')->where('slider_status','1')->take(3)->get();
         //Seo
         $meta_desc = "Trà sữa siêu thơm ngon dành cho tất cả mọi người, ai thèm trà sữa thì hãy tới với tui nè";
         $meta_keywords = "Trà sữa, Trà sữa ngon, Thức uống ngon";
@@ -24,7 +26,7 @@ class HomeController extends Controller
         $all_product = Product::where('product_status', '1')->orderby('product_id', 'desc')->limit(4)->get();
         return view('index')->with('category', $cate_product)->with('all_product', $all_product)
         ->with('meta_desc',$meta_desc)->with('meta_keywords',$meta_keywords)
-        ->with('meta_title',$meta_title)->with('url_canonical',$url_canonical);
+        ->with('meta_title',$meta_title)->with('url_canonical',$url_canonical)->with('slider',$slider);
 
     }
 

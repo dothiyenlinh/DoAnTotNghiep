@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 session_start();
+use App\Statistic;
 class AdminController extends Controller
 {
     public function AuthLogin(){
@@ -56,5 +57,31 @@ class AdminController extends Controller
         Session::put('admin_name',null);
         Session::put('admin_id',null);
         return Redirect::to('/admin');
+    }
+
+    public function filter_by_date(Request $request){
+
+        $data = $request->all();
+
+        $from_date = $data['from_date'];
+        $to_date = $data['to_date'];
+
+        $get = Statistic::whereBetween('order_date',[$from_date,$to_date])->orderBy('order_date','ASC')->get();
+
+
+        foreach($get as $key => $val){
+
+            $chart_data[] = array(
+
+                'period' => $val->order_date,
+                'order' => $val->total_order,
+                'sales' => $val->sales,
+                'profit' => $val->profit,
+                'quantity' => $val->quantity
+            );
+        }
+
+        echo $data = json_encode($chart_data);
+
     }
 }

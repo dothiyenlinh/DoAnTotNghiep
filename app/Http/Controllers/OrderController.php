@@ -7,6 +7,8 @@ use App\Shipping;
 use App\Order;
 use App\OrderDetails;
 use App\Customer;
+use App\Coupon;
+use Illuminate\Support\Facades\Redirect;
 
 class OrderController extends Controller
 {
@@ -42,6 +44,12 @@ class OrderController extends Controller
         }
 
         return view('admin.view_order')->with(compact('order_details', 'customer', 'shipping', 'order_details', 'coupon_condition', 'coupon_number'));
+    }
+
+    public function delete_order($order_code){
+		$order = Order::where('order_code',$order_code)->delete();
+		$order_details = OrderDetails::where('order_code',$order_code)->delete();
+        return Redirect::to('manage-order');
     }
 
 }

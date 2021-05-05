@@ -49,7 +49,7 @@
                                     <input type="checkbox" checked="checked" />
                                     <div class="control__indicator"></div>
                                 </label>
-                                <span class="ml-auto"><a href="#" class="forgot-pass">{{__('Quên mật khẩu')}}</a></span>
+                                <span class="ml-auto"><a href="{{URL::to('/quen-mat-khau')}}" class="forgot-pass">{{__('Quên mật khẩu')}}</a></span>
                             </div>
 
                             <input type="submit" value="Đăng nhập" class="btn btn-block btn-primary">
@@ -57,9 +57,6 @@
                             <div style="margin-left: 20%;">
                                 <p style="margin-top: 2%;">{{__('Bạn chưa có tài khoản?')}} <a style="margin-left: 2%;" href="{{URL::to('/register')}}" class="forgot-pass">{{__('Đăng kí')}}</a> </p>
                             </div>
-                            <!-- @if(session('alert'))
-                            <section class="btn btn-success">{{session('alert')}}</section>
-                            @endif -->
                         </form>
                     </div>
                 </div>

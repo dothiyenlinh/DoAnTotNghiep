@@ -264,8 +264,27 @@
                             var order_fee = $('.order_fee').val();
                             var order_coupon = $('.order_coupon').val();
                             var _token = $('input[name="_token"]').val();
-
-                            $.ajax({
+                            if(shipping_method==0){
+                                $.ajax({
+                                url: '{{url('/payment-onlines')}}',
+                                method: 'POST',
+                                data: {
+                                    shipping_email: shipping_email,
+                                    shipping_name: shipping_name,
+                                    shipping_address: shipping_address,
+                                    shipping_phone: shipping_phone,
+                                    shipping_notes: shipping_notes,
+                                    _token: _token,
+                                    order_fee: order_fee,
+                                    order_coupon: order_coupon,
+                                    shipping_method: shipping_method
+                                },
+                                success: function() {
+                                    $(location).attr('href', 'thanh-toan');
+                                }
+                                });
+                            }else{
+                                $.ajax({
                                 url: '{{url('/confirm-order')}}',
                                 method: 'POST',
                                 data: {
@@ -286,6 +305,8 @@
                             window.setTimeout(function() {
                                 location.reload();
                             }, 3000);
+                            }
+
                         } else {
                             swal("Đóng", "Đơn hàng chưa được gửi, làm ơn hoàn tất đơn hàng", "error");
                         }

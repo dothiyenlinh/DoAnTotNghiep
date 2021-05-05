@@ -94,13 +94,16 @@
                 <div class="col-sm-12">
                     <!-- <div id="slider-carousel" class="carousel slide" data-ride="carousel"> -->
                         <div class="item">
+                        <div class="col-sm-6">
+                                <img src="public/frontend/images/logotoco.png" class="girl img-responsive" alt="" />
+                            </div>
                             <div style="margin-top: 12%;" class="col-sm-6">
                                 <h1><span></span>Welcome Tocotoco</h1>
                                 <h2>{{__('TocoToco – Trà sữa của hạnh phúc')}}</h2>
+                                <!-- <p><a href="san-pham" style="color: black;">{{__('Nhấn vào đây để mua hàng')}}</a></p> -->
+                                <button type="button" class="btn btn-default add-to-cart"><a href="san-pham" style="color: black;">{{__('Nhấn vào đây để mua hàng')}}   <i class="fa fa-shopping-cart"></i></a></button>
                             </div>
-                            <div class="col-sm-6">
-                                <img src="public/frontend/images/logotoco.png" class="girl img-responsive" alt="" />
-                            </div>
+
                         </div>
                     <!-- </div> -->
                 </div>

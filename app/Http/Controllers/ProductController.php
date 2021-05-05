@@ -10,6 +10,7 @@ use App\Http\Requests;
 //use Session;
 use Illuminate\Support\Facades\Redirect;
 use SebastianBergmann\Environment\Console;
+use App\Rating;
 
 session_start();
 
@@ -91,7 +92,6 @@ class ProductController extends Controller
         return Redirect::to('all-product');
     }
 
-    //End Admin Pages
     public function details_product(Request $request,$product_id){
         $cate_product = DB::table('tbl_category_product')->where('category_status','1')->orderby('category_id','desc')->get();
 
@@ -101,6 +101,7 @@ class ProductController extends Controller
 
         foreach($details_product as $key => $value){
             $category_id = $value ->category_id;
+            $product_id = $value->product_id;
             $meta_desc = $value->product_desc;
             $meta_keywords = $value->meta_keywords;
             $meta_title = $value->product_name;
@@ -111,9 +112,22 @@ class ProductController extends Controller
         ->join('tbl_category_product','tbl_category_product.category_id', '=','tbl_product.category_id')
         ->where('tbl_category_product.category_id',$category_id)->whereNotIn('tbl_product.product_id',[$product_id])->get();
 
+        $rating = Rating::where('product_id',$product_id)->avg('rating');
+        $rating = round($rating);
+
         return view('pages.sanpham.show_details')->with('category',$cate_product)
         ->with('product_details',$details_product)->with('relate',$related_product)
         ->with('meta_desc',$meta_desc)->with('meta_keywords',$meta_keywords)
-        ->with('meta_title',$meta_title)->with('url_canonical',$url_canonical);
+        ->with('meta_title',$meta_title)->with('url_canonical',$url_canonical)
+        ->with('rating',$rating);
+    }
+
+    public function insert_rating(Request $request){
+        $data = $request->all();
+        $rating = new Rating();
+        $rating->product_id = $data['product_id'];
+        $rating->rating = $data['index'];
+        $rating->save();
+        echo 'done';
     }
 }

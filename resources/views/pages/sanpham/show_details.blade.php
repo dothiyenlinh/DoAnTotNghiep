@@ -35,6 +35,24 @@
                     <i class="fa fa-shopping-cart"></i>{{__('Thêm vào giỏ hàng')}}</button>
             </form>
             <a href=""><img src="images/product-details/share.png" class="share img-responsive" alt="" /></a>
+            <ul class="list-inline rating" title="Average Rating">
+                @for($count=1; $count<=5; $count++)
+                    @php
+                    if($count<=$rating){
+                        $color='color:#ffcc00;' ;
+                    } else {
+                        $color='color:#ccc;' ;
+                    }
+                    @endphp
+                    <li title="star_rating"
+                    id="{{$value->product_id}}-{{$count}}"
+                    data-index="{{$count}}"
+                    data-product_id="{{$value->product_id}}"
+                    data-rating="{{$rating}}"
+                    class="rating"
+                    style="cursor:pointer; {{$color}} font-size:30px;">&#9733;</li>
+                @endfor
+            </ul>
         </div>
         <div id="similar-product" class="carousel slide" data-ride="carousel">
         </div>

@@ -260,6 +260,61 @@
         });
     </script>
 
+<script type="text/javascript">
+    function remove_background(product_id)
+     {
+      for(var count = 1; count <= 5; count++)
+      {
+       $('#'+product_id+'-'+count).css('color', '#ccc');
+      }
+    }
+    //hover
+   $(document).on('mouseenter', '.rating', function(){
+      var index = $(this).data("index");
+      var product_id = $(this).data('product_id');
+      remove_background(product_id);
+      for(var count = 1; count<=index; count++)
+      {
+       $('#'+product_id+'-'+count).css('color', '#ffcc00');
+      }
+    });
+   //nhả
+   $(document).on('mouseleave', '.rating', function(){
+      var index = $(this).data("index");
+      var product_id = $(this).data('product_id');
+      var rating = $(this).data("rating");
+      remove_background(product_id);
+      for(var count = 1; count<=rating; count++)
+      {
+       $('#'+product_id+'-'+count).css('color', '#ffcc00');
+      }
+     });
+
+    //click
+    $(document).on('click', '.rating', function(){
+          var index = $(this).data("index");
+          var product_id = $(this).data('product_id');
+            var _token = $('input[name="_token"]').val();
+          $.ajax({
+           url:"{{url('insert-rating')}}",
+           method:"POST",
+           data:{index:index, product_id:product_id,_token:_token},
+           success:function(data)
+           {
+            if(data == 'done')
+            {
+             alert("Bạn đã đánh giá "+index +" trên 5");
+            }
+            else
+            {
+             alert("Lỗi đánh giá");
+            }
+           }
+    });
+
+    });
+</script>
+
 </body>
 
 </html>

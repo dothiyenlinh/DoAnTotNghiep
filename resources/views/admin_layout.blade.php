@@ -29,6 +29,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <link rel="stylesheet" href="{{ asset('public/backend/css/morris.css') }}" type="text/css" />
     <!-- calendar -->
     <link rel="stylesheet" href="{{ asset('public/backend/css/monthly.css') }}">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <!-- //calendar -->
     <!-- //font-awesome icons -->
     <script src="public/backend/js/jquery2.0.3.min.js"></script>
@@ -45,7 +46,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <!--logo start-->
             <div class="brand">
                 <a href="dashboard" class="logo">
-                    ADMIN
+                    Admin ToCoToCo
                 </a>
                 <div class="sidebar-toggle-box">
                     <div class="fa fa-bars"></div>
@@ -165,6 +166,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             </ul>
                         </li>
 
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-bookmark"></i>
+                                <span>Slider</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="add-slider">Thêm Slider</a></li>
+                                <li><a href="manage-slider">Danh sách Slider</a></li>
+                            </ul>
+                        </li>
+
                     </ul>
                 </div>
                 <!-- sidebar menu end-->
@@ -186,6 +198,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script src="public/backend/js/jquery.nicescroll.js"></script>
     <script src="{{asset('public/backend/ckeditor/ckeditor.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/formvalidation/0.6.2-dev/js/formValidation.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     <script>
         $.validate({});
@@ -414,7 +427,106 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
         });
     </script>
-    <!-- //calendar -->
+
+<script type="text/javascript">
+
+  $( function() {
+    $( "#datepicker" ).datepicker({
+        prevText:"Tháng trước",
+        nextText:"Tháng sau",
+        dateFormat:"yy-mm-dd",
+        dayNamesMin: [ "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật" ],
+        duration: "slow"
+    });
+    $( "#datepicker2" ).datepicker({
+        prevText:"Tháng trước",
+        nextText:"Tháng sau",
+        dateFormat:"yy-mm-dd",
+        dayNamesMin: [ "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật" ],
+        duration: "slow"
+    });
+  } );
+
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+        chart60daysorder();
+
+        var chart = new Morris.Bar({
+
+              element: 'chart',
+              //option chart
+              lineColors: ['#819C79', '#fc8710','#FF6541', '#A4ADD3', '#766B56'],
+                parseTime: false,
+                hideHover: 'auto',
+                xkey: 'period',
+                ykeys: ['order','sales','profit','quantity'],
+                labels: ['đơn hàng','doanh số','lợi nhuận','số lượng']
+
+            });
+
+
+
+        function chart60daysorder(){
+            var _token = $('input[name="_token"]').val();
+            $.ajax({
+                url:"{{url('/days-order')}}",
+                method:"POST",
+                dataType:"JSON",
+                data:{_token:_token},
+
+                success:function(data)
+                    {
+                        chart.setData(data);
+                    }
+            });
+        }
+
+    $('.dashboard-filter').change(function(){
+        var dashboard_value = $(this).val();
+        var _token = $('input[name="_token"]').val();
+        // alert(dashboard_value);
+        $.ajax({
+            url:"{{url('/dashboard-filter')}}",
+            method:"POST",
+            dataType:"JSON",
+            data:{dashboard_value:dashboard_value,_token:_token},
+
+            success:function(data)
+                {
+                    chart.setData(data);
+                }
+            });
+
+    });
+
+    $('#btn-dashboard-filter').click(function(){
+
+        var _token = $('input[name="_token"]').val();
+
+        var from_date = $('#datepicker').val();
+        var to_date = $('#datepicker2').val();
+
+         $.ajax({
+            url:"{{url('/filter-by-date')}}",
+            method:"POST",
+            dataType:"JSON",
+            data:{from_date:from_date,to_date:to_date,_token:_token},
+
+            success:function(data)
+                {
+                    chart.setData(data);
+                }
+        });
+
+    });
+
+});
+
+</script>
+
 </body>
 
 </html>

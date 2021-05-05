@@ -14,7 +14,7 @@
 			7px 6px 1px #ccc;
 		}
 	</style>
-	<h1 class='txtdeepshadow'>Cảm ơn đã tin tưởng-Chúng tôi sẽ liên lạc sớm nhất</h1>
+	<h1 class='txtdeepshadow'>{{__('Cảm ơn đã tin tưởng-Chúng tôi sẽ liên lạc sớm nhất')}}</h1>
 	<img style="margin-left: 35%" src="public/frontend/images/thank.gif" alt="" />
 
 @endsection
