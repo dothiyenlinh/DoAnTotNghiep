@@ -195,11 +195,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
 
-    <script type="text/javascript">
-        $('.linh').change(function() {
-            alert('ok');
-        });
-    </script>
+    
     <script>
         $.validate({});
     </script>

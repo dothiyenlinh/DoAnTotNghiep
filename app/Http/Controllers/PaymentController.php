@@ -22,6 +22,7 @@ class PaymentController extends Controller
     }
     public function thanh_toan(Request $request){
     	$data = Session::get('thanhtoan');
+
     	$checkout_code = substr(md5(microtime()),rand(0,26),5);
     	Session::put('code',$checkout_code);
     	return view('pages.vnpay.index')->with(compact('data','checkout_code')) ;
@@ -74,6 +75,8 @@ class PaymentController extends Controller
             $vnp_Url .= 'vnp_SecureHashType=SHA256&vnp_SecureHash=' . $vnpSecureHash;
         }
         return redirect($vnp_Url);
+
+
     }
 
     public function vnpay_return(Request $request){
@@ -105,7 +108,7 @@ class PaymentController extends Controller
             $order->order_status = 1;
             $order->order_code = Session::get('code');
             date_default_timezone_set('Asia/Ho_Chi_Minh');
-            $order_date = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d');
+            // $order_date = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d');
             $order->created_at = now();
             // $order->order_date = $order_date;
             $order->save();

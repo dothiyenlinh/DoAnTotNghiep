@@ -56,7 +56,7 @@
                                     @php
                                         $total_after_coupon = $total - (($total*$cou['coupon_number'])/100);
                                     @endphp
-                                    <input readonly class="form-control" id="amount" name="amount" type="number" value="{{$total_after_coupon + Session::get('fee')}}"/>
+                                        <input readonly class="form-control" id="amount" name="amount" type="number" value="{{$total_after_coupon + Session::get('fee')}}"/>
                                 @elseif($cou['coupon_condition']==2)
                                     @php
                                         $total_after_coupon = $total - $cou['coupon_number'];

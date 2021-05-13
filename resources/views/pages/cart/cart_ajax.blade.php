@@ -107,7 +107,7 @@
                                 @endphp
                             </p>
                             <p>
-                                <p>Tổng đã giảm :{{number_format($total_coupon,0,',','.')}}đ</p>
+                            <p>Tổng đã giảm :{{number_format($total_coupon,0,',','.')}}đ</p>
                             </p>
                             @endif
                             @endforeach
