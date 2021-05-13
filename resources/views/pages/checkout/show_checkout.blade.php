@@ -92,7 +92,7 @@
                             <tr class="cart_menu">
                                 <td class="image">{{__('Hình ảnh')}}</td>
                                 <td class="description">{{__('Tên sản phẩm')}}</td>
-                                <td class="price">{{__('Giá sản phẩm')}}</td>
+                                <td class="price">{{__('Giá')}}</td>
                                 <td class="quantity">{{__('Số lượng')}}</td>
                                 <td class="total">{{__('Thành tiền')}}</td>
                                 <td></td>
@@ -150,7 +150,7 @@
                                             @endphp
                                         <!-- </p> -->
                                         @elseif($cou['coupon_condition']==1)
-                                        Mã giảm : {{number_format($cou['coupon_number'],0,',','.')}} k
+                                        Mã giảm : {{number_format($cou['coupon_number'],0,',','.')}}đ
                                         <!-- <p> -->
                                             @php
                                             $total_coupon = $total - $cou['coupon_number'];

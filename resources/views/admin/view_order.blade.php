@@ -143,7 +143,7 @@
                     </tr>
                     @endforeach
                     <tr>
-                        <td colspan="2">
+                        <!-- <td colspan="2">
                             @php
                             $total_coupon = 0;
                             @endphp
@@ -163,6 +163,34 @@
 
                             Phí ship : {{number_format($details->product_feeship,0,',','.')}}đ</br>
                             Thanh toán: {{number_format($total_coupon,0,',','.')}}đ
+                        </td> -->
+                        <td colspan="2">
+                            Tổng giá sản phẩm :{{number_format($total ,0,',','.')}} VND<br>
+                            Mã giảm giá :
+                            @if($details->product_coupon!='no')
+                            {{$details->product_coupon}}
+                            @else
+                            Không có mã giảm giá
+                            @endif
+                            <br>
+                            @php
+                            $total_coupon = 0;
+                            @endphp
+                            @if($coupon_condition==0)
+                            @php
+                            $total_after_coupon = ($total*$coupon_number)/100;
+                            echo 'Giảm giá : '.number_format($total_after_coupon,0,',','.').' VND'.'</br>';
+                            $total_coupon = $total - $total_after_coupon + $details->product_feeship;
+                            @endphp
+                            @else
+                            @php
+                            echo 'Giảm giá : '.number_format($coupon_number,0,',','.').' VND'.'</br>';
+                            $total_coupon = $total - $coupon_number + $details->product_feeship;
+
+                            @endphp
+                            @endif
+                            Phí ship : {{number_format($details->product_feeship,0,',','.')}} VND<br>
+                            Tổng tiền đơn hàng: {{number_format($total_coupon,0,',','.')}} VND
                         </td>
                     </tr>
                     <tr>
@@ -194,4 +222,5 @@
         </div>
     </div>
 </div>
+
 @endsection
