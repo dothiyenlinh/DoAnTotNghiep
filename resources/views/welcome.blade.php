@@ -224,7 +224,39 @@
     <div id="fb-root"></div>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v10.0" nonce="OV0nTRfv"></script>
 
-   <script type="text/javascript">
+    <div style="margin-bottom: 3%;" class="zalo-chat-widget" data-oaid="2678331028746795355" data-welcome-message="Rất vui khi được hỗ trợ bạn!" data-autopopup="0" data-width="400" data-height="470"></div>
+    <script src="https://sp.zalo.me/plugins/sdk.js"></script>
+
+    <!-- //Zalo -->
+    <div id="fb-root"></div>
+      <script>
+        window.fbAsyncInit = function() {
+          FB.init({
+            xfbml            : true,
+            version          : 'v9.0'
+          });
+        };
+
+        (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = '0346311464';
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+      </script>
+
+      <div class="fb-customerchat"
+        attribution=setup_tool
+        page_id="2678331028746795355"
+	  theme_color="#0A7CFF"
+	  logged_in_greeting="Chào bạn,shop có thể giúp gì được cho bạn?"
+	  logged_out_greeting="Chào bạn,shop có thể giúp gì được cho bạn?">
+      </div>
+
+    <!-- endchatzalo -->
+
+    <script type="text/javascript">
         $(document).ready(function(){
             $('.add-to-cart').click(function(){
                 var id = $(this).data('id_product');
@@ -314,6 +346,8 @@
 
     });
 </script>
+
+
 
 </body>
 

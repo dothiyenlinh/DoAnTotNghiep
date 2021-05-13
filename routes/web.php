@@ -95,6 +95,8 @@ Route::get('/update-new-pass', 'CheckoutController@update_new_pass');
 Route::get('/manage-order', 'OrderController@manage_order');
 Route::get('/view-order/{order_code}', 'OrderController@view_order');
 Route::get('/delete-order/{order_code}','OrderController@delete_order');
+Route::post('/update-order-qty', 'CheckoutController@update_order_qty');
+
 
 //Language
 Route::get('/language/{language}', 'LanguageController@language');
@@ -114,9 +116,12 @@ Route::post('/insert-slider','SliderController@insert_slider');
 Route::get('/unactive-slide/{slide_id}','SliderController@unactive_slide');
 Route::get('/active-slide/{slide_id}','SliderController@active_slide');
 
-
 //Payment online
 Route::post('/payment-onlines','PaymentController@payment_onlines');
 Route::get('/thanh-toan','PaymentController@thanh_toan');
 Route::post('/thanhtoan-onlines','PaymentController@thanhtoan_onlines');
 Route::get('/vnpay-return',['as'=>'vnpayreturn','uses'=>'PaymentController@vnpay_return']);
+
+//Chart
+Route::post('/filter-by-date','AdminController@filter_by_date');
+

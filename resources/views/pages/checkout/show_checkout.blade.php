@@ -138,37 +138,37 @@
                                         @foreach(Session::get('coupon') as $key => $cou)
                                         @if($cou['coupon_condition']==0)
                                         Mã giảm : {{$cou['coupon_number']}} %
-                                        <p>
+                                        <!-- <p> -->
                                             @php
                                             $total_coupon = ($total*$cou['coupon_number'])/100;
 
                                             @endphp
-                                        </p>
-                                        <p>
+                                        <!-- </p> -->
+                                        <!-- <p> -->
                                             @php
                                             $total_after_coupon = $total-$total_coupon;
                                             @endphp
-                                        </p>
+                                        <!-- </p> -->
                                         @elseif($cou['coupon_condition']==1)
                                         Mã giảm : {{number_format($cou['coupon_number'],0,',','.')}} k
-                                        <p>
+                                        <!-- <p> -->
                                             @php
                                             $total_coupon = $total - $cou['coupon_number'];
 
                                             @endphp
-                                        </p>
+                                        <!-- </p> -->
                                         @php
                                         $total_after_coupon = $total_coupon;
                                         @endphp
                                         @endif
                                         @endforeach
                                     </li>
-                                    </li>
+
                                     @endif
 
                                     @if(Session::get('fee'))
                                     <li>
-                                        Phí vận chuyển <span>{{number_format(Session::get('fee'),0,',','.')}}đ</span></li>
+                                        Phí chuyển: <span>{{number_format(Session::get('fee'),0,',','.')}}đ</span></li>
                                     <?php $total_after_fee = $total + Session::get('fee'); ?>
                                     @endif
                                     <li>Tổng còn:

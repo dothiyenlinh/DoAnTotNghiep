@@ -8,8 +8,9 @@ use App\Http\Requests;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
-session_start();
 use App\Statistic;
+session_start();
+
 class AdminController extends Controller
 {
     public function AuthLogin(){
@@ -80,8 +81,6 @@ class AdminController extends Controller
                 'quantity' => $val->quantity
             );
         }
-
         echo $data = json_encode($chart_data);
-
     }
 }

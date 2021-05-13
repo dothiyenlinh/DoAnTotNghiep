@@ -198,7 +198,7 @@ class CheckoutController extends Controller
             ->select('tbl_order.*', 'tbl_customers.*', 'tbl_shipping.*', 'tbl_order_details.*')
             ->first();
         $manager_order_by_id = view('admin.view_order')->with('order_by_id', $order_by_id);
-        
+
         return view('admin_layout')->with('admin.view_order', $manager_order_by_id);
     }
     public function delete_order($order_id)
@@ -255,7 +255,6 @@ class CheckoutController extends Controller
         if($data['order_coupon']!='no'){
             $coupon = Coupon::where('coupon_code',$data['order_coupon'])->first();
             $coupon->coupon_time = $coupon->coupon_time - 1;
-
             $coupon->save();
         }
 

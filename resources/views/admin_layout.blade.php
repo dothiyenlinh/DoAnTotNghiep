@@ -30,11 +30,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!-- calendar -->
     <link rel="stylesheet" href="{{ asset('public/backend/css/monthly.css') }}">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
     <!-- //calendar -->
     <!-- //font-awesome icons -->
     <script src="public/backend/js/jquery2.0.3.min.js"></script>
-    <script src="public/backend/js/raphael-min.js"></script>
-    <script src="public/backend/js/morris.js"></script>
 
 
 </head>
@@ -140,7 +139,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <span>Vận chuyển</span>
                             </a>
                             <ul class="sub">
-                                <!-- <li><a href="insert-coupon">Thêm mã giảm giá</a></li> -->
                                 <li><a href="delivery">Quản lí vận chuyển</a></li>
                             </ul>
                         </li>
@@ -176,20 +174,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <li><a href="manage-slider">Danh sách Slider</a></li>
                             </ul>
                         </li>
-
                     </ul>
                 </div>
-                <!-- sidebar menu end-->
             </div>
         </aside>
-        <!--sidebar end-->
-        <!--main content start-->
         <section id="main-content">
             <section class="wrapper">
                 @yield('admin_content')
             </section>
         </section>
-        <!--main content end-->
     </section>
     <script src="public/backend/js/bootstrap.js"></script>
     <script src="public/backend/js/jquery.dcjqaccordion.2.7.js"></script>
@@ -199,7 +192,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script src="{{asset('public/backend/ckeditor/ckeditor.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/formvalidation/0.6.2-dev/js/formValidation.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
 
+    <script type="text/javascript">
+        $('.linh').change(function() {
+            alert('ok');
+        });
+    </script>
     <script>
         $.validate({});
     </script>
@@ -210,7 +210,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         CKEDITOR.replace('editor');
     </script>
     <script src="public/backend/js/jquery.scrollTo.js"></script>
-    <!-- morris JavaScript -->
+
     <script type="text/javascript">
         $(document).ready(function() {
 
@@ -219,7 +219,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             function fetch_delivery() {
                 var _token = $('input[name="_token"]').val();
                 $.ajax({
-                    url: '{{url('/select-feeship ')}}',
+                    url: '{{url('/select-feeship')}}',
                     method: 'POST',
                     data: {
                         _token: _token
@@ -235,7 +235,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 var fee_value = $(this).text();
                 var _token = $('input[name="_token"]').val();
                 $.ajax({
-                    url: '{{url('/update-delivery')}}',
+                    url: '{{url('/update-delivery ')}}',
                     method: 'POST',
                     data: {
                         feeship_id: feeship_id,
@@ -297,235 +297,110 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             });
         })
     </script>
-    <script>
-        $(document).ready(function() {
-            //BOX BUTTON SHOW AND CLOSE
-            jQuery('.small-graph-box').hover(function() {
-                jQuery(this).find('.box-button').fadeIn('fast');
-            }, function() {
-                jQuery(this).find('.box-button').fadeOut('fast');
-            });
-            jQuery('.small-graph-box .box-close').click(function() {
-                jQuery(this).closest('.small-graph-box').fadeOut(200);
-                return false;
-            });
-
-            //CHARTS
-            function gd(year, day, month) {
-                return new Date(year, month - 1, day).getTime();
-            }
-
-            graphArea2 = Morris.Area({
-                element: 'hero-area',
-                padding: 10,
-                behaveLikeLine: true,
-                gridEnabled: false,
-                gridLineColor: '#dddddd',
-                axes: true,
-                resize: true,
-                smooth: true,
-                pointSize: 0,
-                lineWidth: 0,
-                fillOpacity: 0.85,
-                data: [{
-                        period: '2015 Q1',
-                        iphone: 2668,
-                        ipad: null,
-                        itouch: 2649
-                    },
-                    {
-                        period: '2015 Q2',
-                        iphone: 15780,
-                        ipad: 13799,
-                        itouch: 12051
-                    },
-                    {
-                        period: '2015 Q3',
-                        iphone: 12920,
-                        ipad: 10975,
-                        itouch: 9910
-                    },
-                    {
-                        period: '2015 Q4',
-                        iphone: 8770,
-                        ipad: 6600,
-                        itouch: 6695
-                    },
-                    {
-                        period: '2016 Q1',
-                        iphone: 10820,
-                        ipad: 10924,
-                        itouch: 12300
-                    },
-                    {
-                        period: '2016 Q2',
-                        iphone: 9680,
-                        ipad: 9010,
-                        itouch: 7891
-                    },
-                    {
-                        period: '2016 Q3',
-                        iphone: 4830,
-                        ipad: 3805,
-                        itouch: 1598
-                    },
-                    {
-                        period: '2016 Q4',
-                        iphone: 15083,
-                        ipad: 8977,
-                        itouch: 5185
-                    },
-                    {
-                        period: '2017 Q1',
-                        iphone: 10697,
-                        ipad: 4470,
-                        itouch: 2038
-                    },
-
-                ],
-                lineColors: ['#eb6f6f', '#926383', '#eb6f6f'],
-                xkey: 'period',
-                redraw: true,
-                ykeys: ['iphone', 'ipad', 'itouch'],
-                labels: ['All Visitors', 'Returning Visitors', 'Unique Visitors'],
-                pointSize: 2,
-                hideHover: 'auto',
-                resize: true
-            });
-
-
-        });
-    </script>
-    <!-- calendar -->
-    <script type="text/javascript" src="public/backend/js/monthly.js"></script>
 
     <script type="text/javascript">
-        $(window).load(function() {
-
-            $('#mycalendar').monthly({
-                mode: 'event',
-
+        $(function() {
+            $("#datepicker").datepicker({
+                prevText: "Tháng trước",
+                nextText: "Tháng sau",
+                dateFormat: "yy-mm-dd",
+                dayNamesMin: ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật"],
+                duration: "slow"
             });
 
-            $('#mycalendar2').monthly({
-                mode: 'picker',
-                target: '#mytarget',
-                setWidth: '250px',
-                startHidden: true,
-                showTrigger: '#mytarget',
-                stylePast: true,
-                disablePast: true
+            $("#datepicker2").datepicker({
+                prevText: "Tháng trước",
+                nextText: "Tháng sau",
+                dateFormat: "yy-mm-dd",
+                dayNamesMin: ["Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật"],
+                duration: "slow"
             });
-
-            switch (window.location.protocol) {
-                case 'http:':
-                case 'https:':
-                    break;
-                case 'file:':
-                    alert('Just a heads-up, events will not work when run locally.');
-            }
-
         });
     </script>
 
-<script type="text/javascript">
-
-  $( function() {
-    $( "#datepicker" ).datepicker({
-        prevText:"Tháng trước",
-        nextText:"Tháng sau",
-        dateFormat:"yy-mm-dd",
-        dayNamesMin: [ "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật" ],
-        duration: "slow"
-    });
-    $( "#datepicker2" ).datepicker({
-        prevText:"Tháng trước",
-        nextText:"Tháng sau",
-        dateFormat:"yy-mm-dd",
-        dayNamesMin: [ "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật" ],
-        duration: "slow"
-    });
-  } );
-
-</script>
-
-<script type="text/javascript">
-$(document).ready(function(){
-
-        chart60daysorder();
-
-        var chart = new Morris.Bar({
-
-              element: 'chart',
-              //option chart
-              lineColors: ['#819C79', '#fc8710','#FF6541', '#A4ADD3', '#766B56'],
+    <script type="text/javascript">
+        $(document).ready(function() {
+            chart60daysorder();
+            var chart = new Morris.Area({
+                element: 'myfirstchart',
+                data: [
+                    { year: '2008', value: 20 },
+                    { year: '2009', value: 10 },
+                    { year: '2010', value: 5 },
+                    { year: '2011', value: 5 },
+                    { year: '2012', value: 20 }
+                ],
+                lineColors: ['#819C79', '#fc8710', '#FF6541', '#A4ADD3', '#766B56'],
                 parseTime: false,
                 hideHover: 'auto',
+                pointFillColors: ['#ffffff'],
+                pointStrokeColors: ['black'],
+                fillOpacity: 0.3,
                 xkey: 'period',
-                ykeys: ['order','sales','profit','quantity'],
-                labels: ['đơn hàng','doanh số','lợi nhuận','số lượng']
-
+                ykeys: ['order', 'sales', 'profit', 'quantity'],
+                labels: ['đơn hàng', 'doanh số', 'lợi nhuận', 'số lượng']
             });
 
+            function chart60daysorder(){
+                var _token = $('input[name="_token"]').val();
+                $.ajax({
+                    url:"{{url('/days-order')}}",
+                    method:"POST",
+                    dataType:"JSON",
+                    data:{_token:_token},
 
+                    success:function(data)
+                        {
+                            chart.setData(data);
+                        }
+                });
+            }
 
-        function chart60daysorder(){
-            var _token = $('input[name="_token"]').val();
-            $.ajax({
-                url:"{{url('/days-order')}}",
-                method:"POST",
-                dataType:"JSON",
-                data:{_token:_token},
+            $('.dashboard-filter').change(function() {
+                var dashboard_value = $(this).val();
+                var _token = $('input[name="_token"]').val();
+                $.ajax({
+                    url: "{{url('/dashboard-filter')}}",
+                    method: "POST",
+                    dataType: "JSON",
+                    data: {
+                        dashboard_value: dashboard_value,
+                        _token: _token
+                    },
 
-                success:function(data)
-                    {
+                    success: function(data) {
                         chart.setData(data);
                     }
-            });
-        }
+                });
 
-    $('.dashboard-filter').change(function(){
-        var dashboard_value = $(this).val();
-        var _token = $('input[name="_token"]').val();
-        // alert(dashboard_value);
-        $.ajax({
-            url:"{{url('/dashboard-filter')}}",
-            method:"POST",
-            dataType:"JSON",
-            data:{dashboard_value:dashboard_value,_token:_token},
-
-            success:function(data)
-                {
-                    chart.setData(data);
-                }
             });
 
-    });
+            $('#btn-dashboard-filter').click(function() {
 
-    $('#btn-dashboard-filter').click(function(){
+                var _token = $('input[name="_token"]').val();
 
-        var _token = $('input[name="_token"]').val();
+                var from_date = $('#datepicker').val();
+                var to_date = $('#datepicker2').val();
 
-        var from_date = $('#datepicker').val();
-        var to_date = $('#datepicker2').val();
+                $.ajax({
+                    url: "{{url('/filter-by-date')}}",
+                    method: "POST",
+                    dataType: "JSON",
+                    data: {
+                        from_date: from_date,
+                        to_date: to_date,
+                        _token: _token
+                    },
 
-         $.ajax({
-            url:"{{url('/filter-by-date')}}",
-            method:"POST",
-            dataType:"JSON",
-            data:{from_date:from_date,to_date:to_date,_token:_token},
-
-            success:function(data)
-                {
-                    chart.setData(data);
-                }
+                    success: function(data) {
+                        chart.setData(data);
+                    }
+                });
+            });
         });
+    </script>
 
-    });
 
-});
-
-</script>
 
 </body>
 
